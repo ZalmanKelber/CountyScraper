@@ -1,0 +1,44 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=yes" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="css/styles.css">
+  <title>County Etymology Scraper</title>
+
+</head>
+
+<body>
+  <h1>County Etymology Scraper</h1>
+  <div class="dropdown">
+    <button
+      class="btn btn-primary dropdown-toggle"
+      type="button"
+      data-toggle="dropdown"
+    >
+      Choose Data
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li><a id="etymologies" href="#">Show County Etymologies</a></li>
+      <li><a id="population" href="#">Show Total Indigenous Population</a></li>
+      <li><a id="percent" href="#">Show Percent Indigenous Population</a></li>
+    </ul>
+  </div>
+  <div id="map-container">
+    <svg id="map"></svg>
+  </div>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="https://d3js.org/d3-array.v1.min.js"></script>
+  <script src="https://d3js.org/d3-geo.v1.min.js"></script>
+  <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+  <script src="https://unpkg.com/topojson@3.0.2/dist/topojson.min.js"></script>
+  <script src="./js/countyInfo.js"></script>
+  <script src="./js/families.js"></script>
+  <script src="./js/utils.js"></script>
+  <script src="./js/renderCounties.js"></script>
+</body>
+</html>

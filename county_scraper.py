@@ -43,19 +43,20 @@ def initialize(cur):
     );
 
     CREATE TABLE Etymologies (
+        id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
         county_id INTEGER,
         lang_ref_id INTEGER
     );
     ''');
 
-def getCounties(api_info: dict):
+def get_counties(api_info: dict):
     topojson_url = "https://cdn.jsdelivr.net/npm/us-atlas@3/counties-10m.json"
     with urlopen(topojson_url, context=api_info["ctx"]) as response:
       return json.loads(response.read().decode("utf8"))["objects"]["counties"]["geometries"]
 
 def search_counties(cur: sqlite3.Cursor, api_info: dict, counties: list):
     counter = 0;
-    for county in counties[:30]:
+    for county in counties:
         print(counter, "/", len(counties))
         counter += 1
         id, name = county["id"], county["properties"]["name"]
@@ -165,13 +166,13 @@ def determine_if_indigenous(api_info: sqlite3.Cursor, ref: str):
     values["key"] = api_info["key"]
     data = urllib.parse.urlencode(values)
     url = api_info["service_url"] + data
-    response = urlopen(url, context=ctx)
+    response = urlopen(url, context=api_info["ctx"])
     location_data = response.read().decode()
     try:
         js = json.loads(location_data)
         lat = js["results"][0]["geometry"]["location"]["lat"]
         lng = js["results"][0]["geometry"]["location"]["lng"]
-        if lng < -20:
+        if lng < -20 and lat > 0:
             return True
         else:
             return False
@@ -186,28 +187,28 @@ def finalize(cur: sqlite3.Cursor):
     ''')
 
 def main():
+    ctx = ssl.create_default_context()
+    ctx.check_hostname = False
+    ctx.verify_mode = ssl.CERT_NONE
+
+    api_info = dict()
+    api_info["service_url"] = "http://py4e-data.dr-chuck.net/json?"
+    api_info["key"] = 42
+    api_info["ctx"] = ctx
+
+    default_dbfile = "countydb.sqlite"
+    dbfile = input("Enter name of database file to write to: ") or default_dbfile
+
     conn = sqlite3.connect(dbfile)
     cur = conn.cursor()
     initialize(cur)
-    counties = getCounties(api_info)
+    counties = get_counties(api_info)
     search_counties(cur, api_info, counties)
     search_languages(cur, api_info)
     search_families(cur, api_info)
     finalize(cur)
     conn.commit()
     conn.close()
-
-ctx = ssl.create_default_context()
-ctx.check_hostname = False
-ctx.verify_mode = ssl.CERT_NONE
-
-api_info = dict()
-api_info["service_url"] = "http://py4e-data.dr-chuck.net/json?"
-api_info["key"] = 42
-api_info["ctx"] = ctx
-
-default_dbfile = "countydb.sqlite"
-dbfile = input("Enter name of database file to write to: ") or default_dbfile
 
 if __name__ == "__main__":
     main()
