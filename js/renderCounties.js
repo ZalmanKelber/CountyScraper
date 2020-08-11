@@ -115,11 +115,11 @@
           .on("start", fam ? selectFamily : selectLanguage))
 
     const gKeyText = svg.append("g");
-    gKeyText.selectAll("text[class=family-key-text]")
+    gKeyText.selectAll("text[class=key-text]")
         .data(data)
         .enter().append("text")
-          .attr("class", "family-key-text")
-          .attr("font-size", `${fontSize}px`)
+          .attr("class", "key-text")
+          .attr("font-size", `${fontSize * 1.2}px`)
           .attr("color", "black")
           .attr("transform", (d, i) => `translate(${getKeyX(fam) + rectSize * 1.5}, ${fontSize / 3 + getKeyY(i, spacing, titleAreaHeight, bottomMargin, data.length) + rectSize / 2})`)
           .text(fam ? getFamilyKeyText : getLanguageKeyText);
@@ -130,6 +130,7 @@
       ? "Language Families:"
       : (state.display === "population" ? "Indigenous population:" : "Percent Indigenous population:");
     svg.append("text")
+      .attr("class", "title-text")
       .attr("font-size", `${fontSize * 2}px`)
       .attr("color", "black")
       .attr("transform", `translate(${x}, ${y})`)

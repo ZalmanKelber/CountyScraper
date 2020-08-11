@@ -58,7 +58,7 @@ const colorsMap = (function() {
 const [maxPopulation, maxPercent] = (function() {
     return Object.keys(countyInfo).reduce(([accPop, accPer], county) => {
     const pop = Math.max(accPop, countyInfo[county].totalIndigenousPopulation);
-    const per = Math.min(15, Math.max(accPer,
+    const per = Math.min(10, Math.max(accPer,
               countyInfo[county].totalIndigenousPopulation * 100 / countyInfo[county].totalPopulation));
     return [pop, per]
   }, [0, 0]);
@@ -74,3 +74,32 @@ const gradients = `<defs>
       <stop offset="100%" style="stop-color:rgba(34, 139, 34, 0)" />
     </linearGradient>
   </defs>`;
+
+const stats = (function() {
+  const stats = Object.keys(countyInfo).reduce((acc, county) => {
+
+    const family = countyInfo[county].foundEtymology ? (countyInfo[county].family ? countyInfo[county].family : "notIndigenous") : "noData";
+    if (acc[family]) {
+      acc[family].number++;
+      acc[family].population += countyInfo[county].totalPopulation;
+    }
+    else {
+      acc[family] = {number: 1, population: countyInfo[county].totalPopulation}
+    }
+    return acc;
+  }, {});
+
+  const indigenous = Object.keys(stats).reduce(({ number, population }, fam) => {
+    if (fam !== "notIndigenous" && fam !== "noData") {
+      const newNumber = number + stats[fam].number;
+      const newPopulation = population + stats[fam].population;
+      return {number: newNumber, population: newPopulation}
+    }
+    else {
+      return { number, population }
+    }
+  }, {number: 0, population: 0});
+
+  stats.indigenous = indigenous
+  return stats;
+})();

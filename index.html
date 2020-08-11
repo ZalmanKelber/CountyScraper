@@ -4,6 +4,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=yes" />
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -14,13 +16,18 @@
 
 <body>
   <h1>County Etymology Scraper</h1>
+  <div class="description">
+    <p>(click on individual counties for more information, and click on
+      language families in the key to see individual languages and highlight
+      relevant counties)</p>
+  </div>
   <div class="dropdown">
     <button
-      class="btn btn-primary dropdown-toggle"
+      class="btn btn-primary dropdown-toggle serif"
       type="button"
       data-toggle="dropdown"
     >
-      Choose Data
+      Select Data
     <span class="caret"></span></button>
     <ul class="dropdown-menu">
       <li><a id="etymologies" href="#">Show County Etymologies</a></li>
@@ -31,6 +38,25 @@
   <div id="map-container">
     <svg id="map"></svg>
   </div>
+  <h1>Proportion of US Counties with Indigenous Etymologies</h1>
+  <div class="dropdown">
+    <button
+      class="btn btn-primary dropdown-toggle serif"
+      type="button"
+      data-toggle="dropdown"
+    >
+      Select Data
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li><a id="chart-1" href="#">Show all categories by number of counties</a></li>
+      <li><a id="chart-2" href="#">Show all categories by population</a></li>
+      <li><a id="chart-3" href="#">Show Indigenous language families by number of counties</a></li>
+      <li><a id="chart-4" href="#">Show Indigenous language families by population</a></li>
+    </ul>
+  </div>
+  <div id="chart-container">
+    <div id="chart"></div>
+  </div>
   <script src="https://d3js.org/d3.v4.min.js"></script>
   <script src="https://d3js.org/d3-array.v1.min.js"></script>
   <script src="https://d3js.org/d3-geo.v1.min.js"></script>
@@ -40,5 +66,6 @@
   <script src="./js/families.js"></script>
   <script src="./js/utils.js"></script>
   <script src="./js/renderCounties.js"></script>
+  <script src="./js/renderChart.js"></script>
 </body>
 </html>

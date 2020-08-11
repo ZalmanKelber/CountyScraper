@@ -1,7 +1,23 @@
-svg {
-  background-color: aliceblue;
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Josefin Sans", sans-serif;
 }
 
-.family-key-text {
-  /* font-size: 1rem; */
+.serif {
+  font-family: "Cinzel", serif;
+}
+
+p {
+  text-align: center;
+}
+
+.description {
+  max-width: 70vw;
+}
+
+h1, p, .title-text, .key-text {
+  color: #444;
+  fill: #444;
 }
