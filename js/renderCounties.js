@@ -24,7 +24,7 @@
   const pathGenerator = geoPath().projection(projection);
 
   function render() {
-    state.width = window.innerWidth >= 700 ? Math.min(1250, window.innerWidth) : window.innerWidth;
+    state.width = window.innerWidth >= 700 ? Math.min(1250, window.innerWidth) : Math.min(window.innerWidth, 500);
     state.scaleConstant = state.width / 1250;
     state.height = state.scaleConstant * 610;
     svg.remove();
